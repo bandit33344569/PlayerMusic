@@ -24,7 +24,6 @@ data class DeezerTrack(
         val pictureSmall: String,
         @SerialName("picture_medium")
         val pictureMedium: String,
-        val radio: Boolean,
         val tracklist: String,
         val type: String
     )

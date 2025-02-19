@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocalViewModel @Inject constructor(
-    val subscribeLocalTrackUseCase: SubscribeLocalTrackUseCase
+    private val subscribeLocalTrackUseCase: SubscribeLocalTrackUseCase
 ) : ViewModel() {
 
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -31,6 +32,7 @@ class ApiFragment : Fragment() {
         val root: View = binding.root
         setupRecyclerView()
         observeAudioFiles()
+        setupSearchView()
         return root
     }
 
@@ -50,5 +52,26 @@ class ApiFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.apiTrackListRecyclerView.adapter = adapter
         binding.apiTrackListRecyclerView.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun setupSearchView() {
+        binding.apiSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    viewModel.searchTracks(it)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    if (it.isBlank())
+                        viewModel.getChartTracks()
+                    else
+                        viewModel.searchTracks(it)
+                }
+                return true
+            }
+        })
     }
 }
