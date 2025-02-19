@@ -1,13 +1,36 @@
 package com.bro.playermusic.presentation.api
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.bro.playermusic.domain.model.Track
+import com.bro.playermusic.domain.usecase.GetChartTracksUseCase
+import com.bro.playermusic.domain.usecase.SearchTracksUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ApiViewModel : ViewModel() {
+@HiltViewModel
+class ApiViewModel @Inject constructor(
+    private val getChartTracksUseCase: GetChartTracksUseCase,
+    private val searchTracksUseCase: SearchTracksUseCase
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+) : ViewModel() {
+
+    private val _tracks: MutableStateFlow<List<Track>> = MutableStateFlow(emptyList())
+    val tracks: StateFlow<List<Track>> = _tracks.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            _tracks.value = getChartTracksUseCase.invoke()
+        }
     }
-    val text: LiveData<String> = _text
+
+    fun searchTracks(query: String) {
+        viewModelScope.launch {
+            _tracks.value = searchTracksUseCase.invoke(query)
+        }
+    }
 }

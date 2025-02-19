@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    kotlin("plugin.serialization") version "2.1.10"
 }
 
 android {
@@ -41,6 +42,11 @@ android {
 }
 
 dependencies {
+    implementation(libs.logging.interceptor)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.kotlinx.serialization.json)
+    implementation (libs.retrofit)
     implementation (libs.github.glide)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
