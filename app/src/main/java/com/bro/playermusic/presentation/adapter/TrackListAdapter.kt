@@ -10,8 +10,8 @@ import com.bro.playermusic.R
 import com.bro.playermusic.domain.model.Track
 import com.bumptech.glide.Glide
 
-class LocalTrackListAdapter :
-    RecyclerView.Adapter<LocalTrackListAdapter.LocalViewHolder>() {
+class TrackListAdapter :
+    RecyclerView.Adapter<TrackListAdapter.LocalViewHolder>() {
     var data: List<Track> = emptyList()
         set(newValue) {
             field = newValue

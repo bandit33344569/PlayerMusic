@@ -1,4 +1,4 @@
-package com.bro.playermusic.data
+package com.bro.playermusic.data.entities
 
 import android.net.Uri
 

@@ -18,7 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bro.playermusic.databinding.FragmentLocalBinding
-import com.bro.playermusic.presentation.adapter.LocalTrackListAdapter
+import com.bro.playermusic.presentation.adapter.TrackListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,9 +26,9 @@ import kotlinx.coroutines.launch
 class LocalFragment : Fragment() {
 
     private var _binding: FragmentLocalBinding? = null
-    private val adapter = LocalTrackListAdapter()
+    private val adapter = TrackListAdapter()
     private val binding get() = _binding!!
-    val viewModel: LocalViewModel by viewModels()
+    private val viewModel: LocalViewModel by viewModels()
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -52,15 +52,12 @@ class LocalFragment : Fragment() {
                 requireContext(),
                 permission
             ) == PackageManager.PERMISSION_GRANTED -> {
-                // Разрешение уже есть - загружаем аудиофайлы
                 observeAudioFiles()
             }
             shouldShowRequestPermissionRationale(permission) -> {
-                // Объясняем пользователю, зачем нужно разрешение
                 showPermissionRationaleDialog(permission)
             }
             else -> {
-                // Запрашиваем разрешение
                 requestPermissionLauncher.launch(permission)
             }
         }
@@ -114,7 +111,6 @@ class LocalFragment : Fragment() {
             .setTitle("Разрешение отклонено")
             .setMessage("Без этого разрешения приложение не может отображать вашу музыку.  Перейдите в настройки приложения, чтобы предоставить разрешение вручную.")
             .setPositiveButton("Настройки") { _, _ ->
-                // Открываем настройки приложения
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = Uri.fromParts("package", requireContext().packageName, null)
                 }

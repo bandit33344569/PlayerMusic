@@ -4,7 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import com.bro.playermusic.data.LocalTrack
+import com.bro.playermusic.data.entities.LocalTrack
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
