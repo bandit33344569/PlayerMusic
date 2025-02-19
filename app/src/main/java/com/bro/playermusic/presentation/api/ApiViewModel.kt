@@ -23,6 +23,10 @@ class ApiViewModel @Inject constructor(
     val tracks: StateFlow<List<Track>> = _tracks.asStateFlow()
 
     init {
+        getChartTracks()
+    }
+
+    fun getChartTracks() {
         viewModelScope.launch {
             _tracks.value = getChartTracksUseCase.invoke()
         }

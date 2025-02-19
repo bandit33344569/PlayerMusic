@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -54,9 +55,11 @@ class LocalFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 observeAudioFiles()
             }
+
             shouldShowRequestPermissionRationale(permission) -> {
                 showPermissionRationaleDialog(permission)
             }
+
             else -> {
                 requestPermissionLauncher.launch(permission)
             }
@@ -82,6 +85,7 @@ class LocalFragment : Fragment() {
         val root: View = binding.root
         setupRecyclerView()
         checkAndRequestPermissions()
+        setupSearchView()
         return root
     }
 
@@ -119,6 +123,24 @@ class LocalFragment : Fragment() {
             .setNegativeButton("Закрыть", null)
             .show()
 
+    }
+
+    private fun setupSearchView() {
+        binding.localSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    viewModel.getFilteredTracks(it)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    viewModel.getFilteredTracks(it)
+                }
+                return true
+            }
+        })
     }
 
 }
